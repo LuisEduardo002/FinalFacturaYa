@@ -14,6 +14,7 @@ import lombok.Setter;
 public class Cliente {
 
     @Id
+    @GeneratedValue (strategy=GenerationType.IDENTITY)
     private Long id_numero_documento;
 
     @Column(name = "nombre", length = 255, nullable = false)

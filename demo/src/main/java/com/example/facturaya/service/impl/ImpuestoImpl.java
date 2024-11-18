@@ -48,7 +48,7 @@ public class ImpuestoImpl implements ImpuestoServicio {
                 () -> new ResouceNotFoundExcepcion(idImpuesto + " no encontrado con el id" + idImpuesto)
         );
 
-        Impuesto.setId(updatedImpuesto.getId());
+
         Impuesto.setNombre(updatedImpuesto.getNombre());
         Impuesto.setPorcentaje(updatedImpuesto.getPorcentaje());
         Impuesto updatedImpuestoObj = ImpuestoRepository.save(Impuesto);

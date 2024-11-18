@@ -9,6 +9,8 @@ import { ProductoCrearComponent } from './components/ProductoComponent'
 import { DataDisplayComponent } from './components/DataDisplayComponent'
 import { ListIvaComponet } from './components/ListImpuestoComponet'
 import { Impuesto } from './components/Impuesto'
+import { ListClienteComponent } from './components/ListClienteComponent'
+import { ClienteCrearComponent } from './components/ClienteComponent'
 
 function App() {
 
@@ -36,6 +38,14 @@ function App() {
       <Route path='/impuesto' element={<ListIvaComponet></ListIvaComponet>}></Route>
 
       <Route path='/add-impuesto' element={<Impuesto></Impuesto>}></Route>
+
+      <Route path='/edit-impuesto/:id' element={<Impuesto></Impuesto>}></Route>\
+
+      <Route path='/cliente' element={<ListClienteComponent></ListClienteComponent>}></Route>
+
+      <Route path='/add-cliente' element={<ClienteCrearComponent/>}></Route>
+
+      <Route path='/edit-cliente/:id' element={<ClienteCrearComponent></ClienteCrearComponent>}></Route>
     </Routes>
 
 

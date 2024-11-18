@@ -24,7 +24,7 @@ export const Impuesto = () => {
         if(id){
           getimpuesto(id).then((response) =>{
                 console.log(response.data);
-                setIdImpuesto(response.data.idImpuesto);
+                setIdImpuesto(response.data.id);
                 setNombre(response.data.nombre);
                 setPorcentaje(response.data.porcentaje);
   
@@ -35,31 +35,39 @@ export const Impuesto = () => {
     }, [id])
     
     function saveOrUpdateImpuesto(e) {
-      e.preventDefault();
-  
-      if (validateForm()) {
-          const impuesto = { idImpuesto, nombre, porcentaje };
-          console.log("Formulario válido:", impuesto);
-  
-          if (id) {
-              updateimpuesto(idImpuesto, impuesto).then((response) => {
-                  console.log(response.data);
-                  navigator('/impuesto');
-              }).catch(error => {
-                  console.error('Error al actualizar el Impuesto', error);
-              });
-          } else {
-              createimpuesto(impuesto).then((response) => {
-                  console.log("Impuesto creado:", response.data);
-                  navigator('/impuesto');
-              }).catch(error => {
-                  console.error('Error al crear el Impuesto', error);
-              });
-          }
-      } else {
-          console.log("Formulario inválido. Corrige los errores antes de enviar.");
-      }
-  }
+        e.preventDefault();
+        console.log("entre almenos a la funcion saveorupdate");
+    
+        if (validateForm()) {
+            const impuesto = {
+                idImpuesto: idImpuesto ? parseInt(idImpuesto, 10) : null, 
+                nombre,
+                porcentaje: parseFloat(porcentaje) // Convertir porcentaje a un número
+            };
+            console.log("Formulario válido:", impuesto);
+    
+            if (id) {
+                console.log("entre a actualizar");
+                updateimpuesto(id, impuesto).then((response) => {
+                    console.log(response.data);
+                    navigator('/impuesto');
+                }).catch(error => {
+                    console.error('Error al actualizar el Impuesto', error);
+                });
+            } else {
+                createimpuesto(impuesto).then((response) => {
+                    console.log("Respuesta del servidor:", response.data);
+                    navigator('/impuesto');
+                }).catch(error => {
+                    console.error('Error al crear el Impuesto', error);
+                    console.log("Configuración de Axios:", error.config);
+                });
+            }
+        } else {
+            console.log("Formulario inválido. Corrige los errores antes de enviar.");
+        }
+    }
+    
   
   
     function validateForm() {
@@ -71,19 +79,15 @@ export const Impuesto = () => {
           porcentaje: '',
       };
   
-      if (!idImpuesto.trim()) {
-          isValid = false;
-          errorsCopy.idImpuesto = "El id es requerido";
-      }
-      if (!nombre.trim()) {
-          isValid = false;
-          errorsCopy.nombre = "El nombre es requerido";
-      }
-      if (!porcentaje.trim()) {
-          isValid = false;
-          errorsCopy.porcentaje = "El porcentaje es requerido";
-      }
-  
+
+    if (!String(nombre).trim()) {
+        isValid = false;
+        errorsCopy.nombre = "El nombre es requerido";
+    }
+    if (!String(porcentaje).trim()) {
+        isValid = false;
+        errorsCopy.porcentaje = "El porcentaje es requerido";
+    }
       setErrors(errorsCopy);
       console.log("Validación completada. ¿Es válido?", isValid);
       return isValid;
