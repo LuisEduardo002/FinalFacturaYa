@@ -1,3 +1,4 @@
+
 package com.example.facturaya.service.impl;
 
 import com.example.facturaya.dto.ProductoDto;
@@ -6,6 +7,7 @@ import com.example.facturaya.exception.ResouceNotFoundExcepcion;
 import com.example.facturaya.mapper.ProductoMapper;
 import com.example.facturaya.repository.ProductoRepository;
 import com.example.facturaya.service.ProductoServicio;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,49 +18,51 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProductoServiceImpl implements ProductoServicio {
 
-        private ProductoRepository productoRepository;
-    @Override
-    public ProductoDto crearProducto(ProductoDto productoDto) {
 
-        Producto producto = ProductoMapper.mapToProducto(productoDto);
-        Producto savedProducto = productoRepository.save(producto);
+    private ProductoRepository ProductoRepository;
+
+    @Override
+    public ProductoDto crearProducto(ProductoDto ProductoDto) {
+
+        Producto Producto = ProductoMapper.mapToProducto(ProductoDto);
+        Producto savedProducto = ProductoRepository.save(Producto);
         return ProductoMapper.mapToProductoDto(savedProducto);
     }
 
     @Override
     public ProductoDto getProductoById(long id) {
-        Producto producto =productoRepository.findById(id).orElseThrow(()->
+        Producto Producto =ProductoRepository.findById(id).orElseThrow(()->
                 new ResouceNotFoundExcepcion("Producto no encontrado con el id" + id));
-        return ProductoMapper.mapToProductoDto(producto);
+        return ProductoMapper.mapToProductoDto(Producto);
     }
 
     @Override
     public List<ProductoDto> getAllProductos() {
-        List <Producto> productos = productoRepository.findAll();
-        return productos.stream().map((producto)-> ProductoMapper.mapToProductoDto(producto)).collect(Collectors.toList());
+        List <Producto> Productos = ProductoRepository.findAll();
+        return Productos.stream().map((Producto)-> ProductoMapper.mapToProductoDto(Producto)).collect(Collectors.toList());
     }
 
     @Override
-    public ProductoDto updateProducto(Long productoId, ProductoDto updatedProducto) {
-
-        Producto producto = productoRepository.findById(productoId).orElseThrow(
-                () -> new ResouceNotFoundExcepcion(productoId + " no encontrado con el id" + productoId)
+    public ProductoDto updateProducto(Long idProducto, ProductoDto updatedProducto) {
+        Producto Producto = ProductoRepository.findById(idProducto).orElseThrow(
+                () -> new ResouceNotFoundExcepcion(idProducto + " no encontrado con el id" + idProducto)
         );
-        producto.setCategoria(updatedProducto.getCategoria());
-        producto.setCategoria(updatedProducto.getCategoria());
-        producto.setPrecio_venta(updatedProducto.getPrecio_venta());
-        producto.setDepartamento(updatedProducto.getDepartamento());
-        producto.setCodigo(updatedProducto.getCodigo());
-        Producto updatedProductoObj = productoRepository.save(producto);
+
+        Producto.setCodigo(updatedProducto.getCodigo());
+        Producto.setDepartamento(updatedProducto.getDepartamento());
+        Producto.setPrecio_venta(updatedProducto.getPrecio_venta());
+        Producto.setCategoria(updatedProducto.getCategoria());
+        Producto updatedProductoObj = ProductoRepository.save(Producto);
         return ProductoMapper.mapToProductoDto(updatedProductoObj);
     }
+
 
     @Override
     public void eliminarProducto(long id) {
 
-        Producto producto =productoRepository.findById(id).orElseThrow(
+        Producto Producto =ProductoRepository.findById(id).orElseThrow(
                 ()->
-                new ResouceNotFoundExcepcion("Producto no encontrado con el id" + id));
-        productoRepository.deleteById(id);
+                        new ResouceNotFoundExcepcion("Producto no encontrado con el id" + id));
+        ProductoRepository.deleteById(id);
     }
 }

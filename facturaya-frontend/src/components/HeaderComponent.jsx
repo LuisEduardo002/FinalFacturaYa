@@ -5,7 +5,8 @@ export const HeaderComponent = () => {
     <div>
         <header>
           <nav className='navbar navbar-dark bg-dark'>
-    
+    <a className='navbar-brand'>Hola amigos</a>
+
         </nav>  
         </header>
 
