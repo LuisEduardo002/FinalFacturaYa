@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const REST_API_BASE_URL = "http://127.0.0.1:8080/api/impuesto";
+const REST_API_BASE_URL = "http://127.0.0.1:8080/api/impuestos";
 
 export const listimpuesto = () =>{return axios.get(REST_API_BASE_URL);}
 

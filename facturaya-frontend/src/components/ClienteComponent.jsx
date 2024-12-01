@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { createcliente, getcliente, updatecliente } from '../services/ClienteServicio';
 
 export const ClienteCrearComponent = () => {
+    const [documento, setDocumento] = useState("")
     const [nombre, setNombre] = useState('');
     const [direccion, setDireccion] = useState('');
     const [telefono, setTelefono] = useState('');
@@ -11,7 +12,8 @@ export const ClienteCrearComponent = () => {
     const [departamento, setDepartamento] = useState('');
 
     const [errors, setErrors] = useState({
-        nombre: '',
+        documento:"",
+                nombre: '',
         direccion: '',
         telefono: '',
         email: '',
@@ -28,6 +30,7 @@ export const ClienteCrearComponent = () => {
             getcliente(id).then((response) => {
                 console.log('hola')
                 console.log(response.data);
+                setDocumento(response.data.numero_documento);
                 setNombre(response.data.nombre);
                 setDireccion(response.data.direccion);
                 setTelefono(response.data.telefono);
@@ -45,7 +48,7 @@ export const ClienteCrearComponent = () => {
         console.log('leepepe')
         console.log(id);
         if (validateForm()) {
-            const cliente = { nombre, direccion, telefono, email, cuidad, departamento };
+            const cliente = {documento, nombre, direccion, telefono, email, cuidad, departamento };
             console.log(cliente);
     
             if (id) {
@@ -133,6 +136,17 @@ export const ClienteCrearComponent = () => {
                     {pageTitle()}
                     <div className="card-body">
                         <form>
+                        <div className="form-group mb-2">
+                                <label className="form-label">Id Documento</label>
+                                <input
+                                    type="text"
+                                    placeholder="Ingrese el nombre"
+                                    value={documento}
+                                    className={`form-control ${errors.documento ? 'is-invalid' : ''}`}
+                                    onChange={(e) => setDocumento(e.target.value)}
+                                />
+                                {errors.documento && <div className="invalid-feedback">{errors.documento}</div>}
+                            </div>
                             <div className="form-group mb-2">
                                 <label className="form-label">Nombre</label>
                                 <input
